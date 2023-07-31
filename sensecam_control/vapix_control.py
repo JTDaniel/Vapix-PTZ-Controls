@@ -19,10 +19,20 @@ class CameraControl:
     Module for control cameras AXIS using Vapix
     """
 
-    def __init__(self, ip, user, password):
+    def __init__(self, ip, user, password, profile = 0):
+        """
+        Args:
+            ip: The ipv4 address of your Camera
+            user: The Axis username for your Camera
+            password: The Axis password for your Camera
+            profile: The media stream profile you wish to control
+
+        Returns: None
+        """
         self.__cam_ip = ip
         self.__cam_user = user
         self.__cam_password = password
+        self.__cam_profile = profile
 
     @staticmethod
     def __merge_dicts(*dict_args) -> dict:
@@ -54,7 +64,7 @@ class CameraControl:
         logging.info('camera_command(%s)', payload)
 
         base_q_args = {
-            'camera': 1,
+            'camera': self.__cam_profile,
             'html': 'no',
             'timestamp': int(time.time())
         }
